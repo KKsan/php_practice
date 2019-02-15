@@ -10,11 +10,18 @@
     <body>
         <?php
 
+            // variable names are case sensitive
             $characterName = "John"; //variable
             $characterAge = 35;
             $gpa = 3.23;
             $isMale = false;
             $longStr = "bling bling power raider\r\n";
+
+            $newVar = &$$isMale; //assign by reference
+
+            define("_pi", 3.1415926); //constant, always global scope
+
+            echo _pi;
 
             echo("Hello world");
             echo "<h1>This can be html code</h1>";
@@ -27,6 +34,19 @@
             echo $longStr[2];
 
             echo abs(-100);
+
+            $car = "abc" . "def"; //. operator is for concatenation
+            $car .= "xyz";
+
+            echo "car:  $car";
+
+            echo '$car'; //will output $car on console, anything in single quotes are not evaluated and taken literally
+
+            echo "\"escaped\"";
+            echo '"escaped"';
+
+
+
         ?>
         <!-- ------------------------get------------------------ -->
 
@@ -108,12 +128,18 @@
 
         <!-- ---------------------functions--------------------------- -->
 
+
         <?php
+
+            // function names are not case sensitive
 
             $HowMuch = 10;
 
             function sayHi($content) {
                 echo "fuck you bitch $content";
+
+                $localVar = "abc"; //local variable
+                static $stVar = "xyz"; //static variable, maintain its value when the function is completed, so if this function is called again, the value remains as it was
             }
 
             sayHi($HowMuch);
@@ -190,10 +216,108 @@
                 $index ++;
 
             } while($index <= 5);
+
+
+            for($i = 1; $i < 10; ++$i) {
+                echo "loop at $i <br>";
+            }
+
+
+            /*
+                block comments
+            */
+
+            //comments
+            //comments
+
         ?>
 
 
-        <!-- ---------------------comments--------------------------- -->
+        <!-- ---------------------include HTML in PHP file--------------------------- -->
+        <?php include "header.html" ?>
+        <p>Hellow World</p> 
+        <?php include "footer.html" ?>
+
+        <!-- ---------------------include PHP in PHP file--------------------------- -->
+
+        <?php 
+            $title = "My First Post";
+            $author = "Mike";
+            $wordCount = 400;
+            include "article-header.php";
+
+            echo $feetInMile;
+
+            sayHola();
+        ?>
+
+        <!-- ---------------------class & objects--------------------------- -->
+
+        <?php
+
+            class Book {
+                public $title;
+                public $author;
+                public $pages;
+                private $ISBN;
+                var $price;  //var is equivalent to public, but generally not used
+
+                function __construct($ti, $au, $pa, $is) {
+                    $this->title = $ti;
+                    $this->author = $au;
+                    $this->pages = $pa;
+                    $this->setISBN($is); //use setter for private attributes
+                    echo "new book created";
+                }
+
+
+                function overPages($limit) {
+                    return $this->pages >= $limit;
+                }
+
+                function getISBN() {
+                    return $this->ISBN;
+                }
+
+                function setISBN($newIs) {
+                    $this->ISBN = $newIs;
+                }
+            }
+
+
+            class Textbook extends Book {
+                function burnTheBook() {
+                    echo "burning!!!";
+                }
+
+                function getISBN() {
+                    echo "overwritten the getISBN function! $haa";
+                }
+            }
+
+
+            $book1 = new Book("Harry Potter", "JK Rowling", 400, "12345-54321");
+
+            echo $book1->title;
+            $book1->title = "Hunger Games";
+            echo $book1->title;
+
+            echo $book1->getISBN();
+
+            $book1->setISBN("abcd");
+            echo $book1->getISBN();            
+
+            if($book1->overPages(300)) {
+                echo "<br>book over 300 pages! <br>";
+            }
+
+
+            $textbook1 = new Textbook("Three Body Problem", "Cixin Liu", 1000, "456-654");
+            $textbook1->burnTheBook();
+            echo $textbook1->getISBN();  
+
+        ?>
+
 
 
     </body>
